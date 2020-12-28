@@ -10,7 +10,47 @@
   </head>
 
   <body>
-    
+    <% if flash[:notice]%>
+      <div class="notification is-primary global-notification">
+        <p class="notice"><%= notice %></p>
+      </div>
+    <% end %>
+
+    <% if flash[:alert] %>
+      <div class="notification is-dange global-notification">
+        <p class="alert"><%= alert %></p>
+      </div>
+    <% end %>
+
+    <nav class="navbar is-dark">
+      <div class="navbar-brand ">
+        <%= link_to root_path, class: "navbar-item" do %>
+          <h1 class="title has-text-white">Private Event</h1>
+        <% end %>
+      </div>
+      
+      <div class="navbar-end">
+        <div class="navbar-item">
+          <% if @current_user %>
+          <%= @current_user.username %>
+          <% end %>
+        </div>
+        <div class="navbar-item">
+          <div class="buttons">
+            
+            <% if @current_user %>
+              <%= link_to "Log out", log_out_path, method: :delete, class: "button is-white-ter"%>
+            <% else %>
+              <%= link_to "Sign up",new_user_path, class: "button is-primary has-text-weight-bold"%>
+              <%= link_to "Log in", log_in_path, class: "button is-light"%>
+            <% end %>
+          
+          </div>
+        </div>
+      </div>
+
+    </nav>
+
     <%= yield %>
   </body>
 </html>

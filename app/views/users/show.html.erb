@@ -1,19 +1,45 @@
 <article class="media box">
   <figure class="media-left">
     <p class="image is-64x64">
-         
-    </p>
+      <%= gravatar_image_tag(@user.email, size: 64, alt: @current_user.name) %>
   </figure>
   <div class="media-content">
     <div class="content">
-      <h2 class="title">User: </h2>
       <p>
-        <%= @user.name%>
-        <br>
-        <%= @user.username %>
+         <%= @user.name%>
+        <strong><small><%= @user.username %></small></strong>
         <br>
         <%= @user.email%>
       </p>
+    </div>
+    <div class="section box">
+      <h2 class="is-size-5 has-text-weight-bold"><%= @user.username %>'s Events: </h2>
+      <%if @user.events.any? %>
+        <%= @user.events.each do |event| %>
+          <article class="media">
+            <div class="media-content">
+              <div class="content">
+                <p>
+                  <strong><%= event.title%></strong>
+                  <br>
+                  <%= event.date%>
+                  <%= event.description%>
+                </p>
+              </div>
+            </div>
+          </article>
+        <% end %>
+      <% else %>
+        <article class="media">
+              <div class="media-content">
+                <div class="content">
+                  <p>
+                    There is no events
+                  </p>
+                </div>
+              </div>
+            </article>
+      <% end %>
     </div>
   </div>
 </article>
