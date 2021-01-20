@@ -15,15 +15,15 @@
     <div class="section box">
       <h2 class="is-size-5 has-text-weight-bold"><%= @user.username %>'s Events: </h2>
       <%if @user.events.any? %>
-        <%= @user.events.each do |event| %>
+        <% @user.events.each do |event| %>
           <article class="media">
             <div class="media-content">
               <div class="content">
                 <p>
                   <strong><%= event.title%></strong>
+                  <small><%= event.event_date %></small>
                   <br>
-                  <%= event.date%>
-                  <%= event.description%>
+                  <%= event.description %>
                 </p>
               </div>
             </div>
