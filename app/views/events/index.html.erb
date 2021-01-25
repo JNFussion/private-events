@@ -1,6 +1,6 @@
 <% @events.each do |event|%>
   <article class="media box">
-    <div class="media-content">
+    <div class="media-content box">
       <div class="content">
         <p>
           <strong><%=event.title%></strong> <small><%= event.creator.username%></small> <small><%= event.event_date.strftime('%d-%m-%Y')%></small>
