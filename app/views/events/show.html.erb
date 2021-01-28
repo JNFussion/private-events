@@ -1,19 +1,41 @@
-    <div class="content">
-      <p>
-         <%= @event.creator.name%>
-        <strong><small><%= @event.creator.username %></small></strong>
-        <br>
-        <%= @event.creator.email%>
-      </p>
+<div class="container mt-2">
+  <article class="message">
+    <div class="message-header">
+      <p><%= @event.title%></p>
+      <%= link_to 'Back', root_path%>
     </div>
-
-<% @event.attendees.each do |attendee| %>
-  <div class="content">
-    <p>
-      <%= attendee.name%>
-      <strong><small><%= attendee.username %></small></strong>
-      <br>
-      <%= attendee.email%>
-      </p>
+    <div class="message-body">
+      
+      <div class="mb-2">
+        <strong>Host:</strong> <%= link_to @event.creator.username, user_path(@event.creator) %> <br>
+          <strong>Event's date: </strong><%= @event.event_date.strftime("%Y-%m-%d at %H:%M")%>
+      </div>
+      <div class="box">
+        <%= @event.description %>
+      </div>
+      
+      <div class="message">
+        <div class="message-header is-5">
+          Attendees:
+        </div>
+        <div class="message-body">
+          <% @event.attendees.each do |attendee| %>
+            <article class="media">
+              <figure class="media-left">
+                <p class="image is-32x32">
+                   <%= gravatar_image_tag(attendee.email, size: 64, alt: attendee.name) %>
+                </p>
+              </figure>
+              <div class="media-content">
+                <div class="content">
+                    <strong><%= link_to attendee.username, user_path(attendee) %></strong> 
+                </div>
+              </div>
+            </article>
+          <% end %>   
+        </div>
+      
+      </div>
     </div>
-<% end %>    
+  </article>
+</div>

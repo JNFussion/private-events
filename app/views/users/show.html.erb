@@ -12,25 +12,21 @@
         <%= @user.email%>
       </p>
     </div>
-    <div class="section box">
-      <h2 class="is-size-5 has-text-weight-bold"><%= @user.username %>'s Events: </h2>
-      <%if @user.events.any? %>
-        <% @user.events.each do |event| %>
-          <article class="media">
-            <div class="media-content">
-              <div class="content">
-                <p>
-                  <strong><%= event.title%></strong>
-                  <small><%= event.event_date %></small>
-                  <br>
-                  <%= event.description %>
-                </p>
+    <div class="message">
+      <div class="message-header"> <%= @user.username %>'s Events: </div>
+      <div class="message-body">
+        <%if @user.events.any? %>
+          <% @user.events.each do |event| %>
+              <div class="media-content">
+                <div class="content">
+                  <p>
+                    <strong><%= link_to event.title, event_path(event) %></strong>
+                    <small><%= event.event_date.strftime("%Y-%m-%d at %H:%M") %></small>
+                  </p>
+                </div>
               </div>
-            </div>
-          </article>
-        <% end %>
-      <% else %>
-        <article class="media">
+          <% end %>
+        <% else %>
               <div class="media-content">
                 <div class="content">
                   <p>
@@ -38,38 +34,34 @@
                   </p>
                 </div>
               </div>
-            </article>
-      <% end %>
+        <% end %>
+      </div>
     </div>
 
-    <div class="section box">
-      <h2 class="is-size-5 has-text-weight-bold"><%= @user.username %> attendeed events: </h2>
-      <%if @user.attended_event.any? %>
-        <% @user.attended_event.each do |event| %>
-          <article class="media">
-            <div class="media-content">
-              <div class="content">
-                <p>
-                  <strong><%= event.title%></strong>
-                  <small><%= event.event_date %></small>
-                  <br>
-                  <%= event.description %>
-                </p>
-              </div>
-            </div>
-          </article>
-        <% end %>
-      <% else %>
-        <article class="media">
+    <div class="message">
+      <div class="message-header"><%= @user.username %> attendeed events:</div>
+      <div class="message-body">
+        <%if @user.attended_event.any? %>
+          <% @user.attended_event.each do |event| %>
               <div class="media-content">
                 <div class="content">
                   <p>
-                    There is no events
+                    <strong><%=link_to event.title, event_path(event)%></strong>
+                    <small><%= event.event_date.strftime("%Y-%m-%d at %H:%M") %></small>
                   </p>
                 </div>
               </div>
-            </article>
-      <% end %>
+          <% end %>
+        <% else %>
+          <div class="media-content">
+            <div class="content">
+              <p>
+                There is no events
+              </p>
+            </div>
+          </div>
+        <% end %>
+      </div>
     </div>
 
   </div>
