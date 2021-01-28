@@ -6,3 +6,14 @@
         <%= @event.creator.email%>
       </p>
     </div>
+
+<% @event.attendees.each do |attendee| %>
+  <div class="content">
+    <p>
+      <%= attendee.name%>
+      <strong><small><%= attendee.username %></small></strong>
+      <br>
+      <%= attendee.email%>
+      </p>
+    </div>
+<% end %>    

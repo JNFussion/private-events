@@ -41,5 +41,36 @@
             </article>
       <% end %>
     </div>
+
+    <div class="section box">
+      <h2 class="is-size-5 has-text-weight-bold"><%= @user.username %> attendeed events: </h2>
+      <%if @user.attended_event.any? %>
+        <% @user.attended_event.each do |event| %>
+          <article class="media">
+            <div class="media-content">
+              <div class="content">
+                <p>
+                  <strong><%= event.title%></strong>
+                  <small><%= event.event_date %></small>
+                  <br>
+                  <%= event.description %>
+                </p>
+              </div>
+            </div>
+          </article>
+        <% end %>
+      <% else %>
+        <article class="media">
+              <div class="media-content">
+                <div class="content">
+                  <p>
+                    There is no events
+                  </p>
+                </div>
+              </div>
+            </article>
+      <% end %>
+    </div>
+
   </div>
 </article>
