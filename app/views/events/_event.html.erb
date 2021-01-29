@@ -1,0 +1,8 @@
+<div class="media-content">
+  <div class="content">    
+    <p>    
+      <strong><%=link_to event.title, event_path(event)%></strong>    
+      <small><%= event.event_date.strftime("%Y-%m-%d at %H:%M") %></small>
+    </p>
+  </div>
+</div>

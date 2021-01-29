@@ -1,68 +1,60 @@
-<article class="media box">
-  <figure class="media-left">
-    <p class="image is-64x64">
-      <%= gravatar_image_tag(@user.email, size: 64, alt: @current_user.name) %>
-  </figure>
-  <div class="media-content">
-    <div class="content">
-      <p>
-         <%= @user.name%>
-        <strong><small><%= @user.username %></small></strong>
-        <br>
-        <%= @user.email%>
-      </p>
-    </div>
-    <div class="message">
-      <div class="message-header"> <%= @user.username %>'s Events: </div>
-      <div class="message-body">
-        <%if @user.events.any? %>
-          <% @user.events.each do |event| %>
-              <div class="media-content">
-                <div class="content">
-                  <p>
-                    <strong><%= link_to event.title, event_path(event) %></strong>
-                    <small><%= event.event_date.strftime("%Y-%m-%d at %H:%M") %></small>
-                  </p>
-                </div>
-              </div>
-          <% end %>
-        <% else %>
-              <div class="media-content">
-                <div class="content">
-                  <p>
-                    There is no events
-                  </p>
-                </div>
-              </div>
-        <% end %>
+
+<div class="container box mt-5">
+  <article class="media m-4">
+    <figure class="media-left">
+        <p class="image is-64x64">
+          <%= gravatar_image_tag(@user.email, size: 64, alt: @current_user.name) %>
+    </figure>
+    <div class="media-content">
+      <div class="content">
+        <p>
+          <%= @user.name%>
+          <strong><small><%= @user.username %></small></strong>
+          <br>
+          <%= @user.email%>
+        </p>
       </div>
     </div>
-
-    <div class="message">
-      <div class="message-header"><%= @user.username %> attendeed events:</div>
-      <div class="message-body">
-        <%if @user.attended_event.any? %>
-          <% @user.attended_event.each do |event| %>
-              <div class="media-content">
-                <div class="content">
-                  <p>
-                    <strong><%=link_to event.title, event_path(event)%></strong>
-                    <small><%= event.event_date.strftime("%Y-%m-%d at %H:%M") %></small>
-                  </p>
-                </div>
-              </div>
-          <% end %>
-        <% else %>
-          <div class="media-content">
-            <div class="content">
-              <p>
-                There is no events
-              </p>
-            </div>
+  </article>
+  
+  <div class="message">
+    <div class="message-header">Events hosted by <%= @user.username %>: </div>
+    <div class="message-body">
+      <%if @user.events.any? %>
+        <%= render @user.events%>
+      <% else %>
+        <div class="media-content">
+          <div class="content">
+            <p>
+              There is no events
+            </p>
           </div>
-        <% end %>
-      </div>
+        </div>
+      <% end %>
     </div>
-
   </div>
-</article>
+
+  <div class="message">
+    <div class="message-header"><%= @user.username %> attendeed events:</div>
+    <div class="message-body">
+      <%if @user.attended_event.any? %>
+        <section class="section">
+          <h2 class="title is-5">Upcoming events:</h2>
+          <%= render @user.attended_event.upcoming%>
+        </section>
+        <section class="section">
+          <h2 class="title is-5">Previously attended events:</h2>
+          <%= render @user.attended_event.past%>
+        </section>
+      <% else %>
+        <div class="media-content">
+          <div class="content">
+            <p>
+              There is no events
+            </p>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
