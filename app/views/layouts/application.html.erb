@@ -23,34 +23,45 @@
     <% end %>
 
     <nav class="navbar is-dark">
-      <div class="navbar-brand ">
+      <div class="navbar-brand">
         <%= link_to root_path, class: "navbar-item" do %>
           <h1 class="title has-text-white">Private Event</h1>
         <% end %>
-      </div>
-      
-      <div class="navbar-end">
-        <div class="navbar-item">
-          <% if @current_user %>
-          <%= @current_user.username %>
-          <% end %>
+        <div class="navbar-burger burger" data-target="navbarExample">
+          <span></span>
+          <span></span>
+          <span></span>
         </div>
-        <div class="navbar-item">
-          <div class="buttons">
-            
+      </div>
+
+      <div id="navbarExample" class="navbar-menu">
+        <div class="navbar-end">
+          <div class="field is-grouped is-flex is-align-items-center mr-1">
             <% if @current_user %>
-              <%= link_to "Log out", log_out_path, method: :delete, class: "button is-white-ter"%>
+              <p class="control">
+                <%= link_to @current_user.username, user_path(@current_user), class: "button is-light is-outlined"%>
+              </p>
+              <p class="control">
+                <%= link_to 'New Event', new_event_path, class: "button is-light is-outlined"%>
+              </p>
+              <p>
+                <%= link_to "Logout", log_out_path, method: :delete, class:"button is-white-ter" %>
+              </p>
             <% else %>
-              <%= link_to "Sign up",new_user_path, class: "button is-primary has-text-weight-bold"%>
-              <%= link_to "Log in", log_in_path, class: "button is-light"%>
+              
+              <p class="control">
+                <%= link_to "Sign up",new_user_path, class: "button is-primary has-text-weight-bold"%>
+              </p>
+
+              <p class="control">
+                <%= link_to "Log in", log_in_path, class: "button is-light"%>
+              </p>
+              
             <% end %>
-          
           </div>
         </div>
       </div>
-
     </nav>
-
     <%= yield %>
   </body>
 </html>
