@@ -27,6 +27,7 @@ gem 'jbuilder', '~> 2.7'
 
 gem 'bulma-rails', '~> 0.9.1'
 gem 'gravatar_image_tag', '~> 1.2'
+gem 'country_select', '~> 4.0'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
