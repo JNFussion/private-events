@@ -1,41 +1,78 @@
-<div class="container mt-2">
-  <article class="message">
-    <div class="message-header">
-      <p><%= @event.title%></p>
-      <%= link_to 'Back', root_path%>
-    </div>
-    <div class="message-body">
-      
-      <div class="mb-2">
-        <strong>Host:</strong> <%= link_to @event.creator.username, user_path(@event.creator) %> <br>
+<div class="columns m-2">
+  <div class="column is-three-quarters">
+    <article class="message">
+      <div class="message-header">
+        <p><%= @event.title%></p>
+        <%= link_to 'Back', root_path%>
+      </div>
+      <div class="message-body">
+        
+        <div class="mb-2">
+          <strong>Host:</strong> <%= link_to @event.creator.username, user_path(@event.creator) %> 
+          <br>
           <strong>Event's date: </strong><%= @event.event_date.strftime("%Y-%m-%d at %H:%M")%>
+          <br>
+          <strong>Location: <%= @event.location%></strong>
+        </div>
+        <div class="box">
+          <%= @event.description %>
+        </div>
+        
+        <div class="message">
+          <div class="message-header is-5">
+            Attendees:
+          </div>
+          <div class="message-body">
+            <% @event.attendees.merge(EventAttendance.attendance_confirmed).each do |attendee| %>
+              
+              <article class="media">
+                <figure class="media-left">
+                  <p class="image is-32x32">
+                    <%= gravatar_image_tag(attendee.email, size: 64, alt: attendee.name) %>
+                  </p>
+                </figure>
+                <div class="media-content">
+                  <div class="content">
+                      <strong><%= link_to attendee.username, user_path(attendee) %></strong> 
+                  </div>
+                </div>
+              </article>
+            <% end %>   
+          </div>
+        
+        </div>
       </div>
-      <div class="box">
-        <%= @event.description %>
-      </div>
-      
+    </article>
+  </div>
+  <% if @event.event_date >= Date.today%>
+    <div class="column">
       <div class="message">
-        <div class="message-header is-5">
-          Attendees:
+        <div class="message-header">
+          Invitations
         </div>
         <div class="message-body">
-          <% @event.attendees.each do |attendee| %>
-            <article class="media">
-              <figure class="media-left">
-                <p class="image is-32x32">
-                   <%= gravatar_image_tag(attendee.email, size: 64, alt: attendee.name) %>
-                </p>
-              </figure>
-              <div class="media-content">
-                <div class="content">
-                    <strong><%= link_to attendee.username, user_path(attendee) %></strong> 
+            <% if @current_user == @event.creator%>
+              <%= form_with url:  event_attendances_path, method: "post" do |f|%>
+                <%= f.hidden_field :event_id, value: @event.id%>
+                <div class="field is-flex is-align-items-center">
+                  <div class="control mr-1">
+                    <%=f.text_field :user_username, placeholder: "Username", class: "input"%>
+                  </div>
+                  <div class="control">
+                    <%= f.submit "Sent Invitation", class: "button is-success"%>
+                  </div>
                 </div>
-              </div>
-            </article>
-          <% end %>   
+              <% end %>
+              
+            <% else %>
+              <% @event_attendance = EventAttendance.find_by(attended_event_id: @event.id, attendees_id: @current_user.id)%>
+              <% if @event_attendance && @event_attendance.confirmation.nil? %>
+                <%= link_to "Accept", event_attendance_path(@event_attendance),method: :patch, class: "button is-primary" %>
+                <%= link_to "Decline" ,event_attendance_path(@event_attendance), method: :delete, class: "button is-danger"%>
+              <% end %>
+            <% end %>
         </div>
-      
       </div>
     </div>
-  </article>
+  <% end %>
 </div>

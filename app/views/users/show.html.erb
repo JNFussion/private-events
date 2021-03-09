@@ -1,60 +1,90 @@
 
-<div class="container box mt-5">
-  <article class="media m-4">
-    <figure class="media-left">
-        <p class="image is-64x64">
-          <%= gravatar_image_tag(@user.email, size: 64, alt: @current_user.name) %>
-    </figure>
-    <div class="media-content">
-      <div class="content">
-        <p>
-          <%= @user.name%>
-          <strong><small><%= @user.username %></small></strong>
-          <br>
-          <%= @user.email%>
-        </p>
+<div class="columns m-2">
+  <div class="column is-three-quarters">
+  
+    <div class="container box">
+      <article class="media m-4">
+        <figure class="media-left">
+            <p class="image is-64x64">
+              <%= gravatar_image_tag(@user.email, size: 64, alt: @current_user.name) %>
+        </figure>
+        <div class="media-content">
+          <div class="content">
+            <p>
+              <%= @user.name%>
+              <strong><small><%= @user.username %></small></strong>
+              <br>
+              <%= @user.email%>
+            </p>
+          </div>
+        </div>
+      </article>
+      
+      <div class="message">
+        <div class="message-header">Events hosted by <%= @user.username %>: </div>
+        <div class="message-body">
+          <%if @user.events.any? %>
+            <%= render @user.events%>
+          <% else %>
+            <div class="media-content">
+              <div class="content">
+                <p>
+                  There is no events
+                </p>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="message">
+        <div class="message-header"><%= @user.username %> attendeed events:</div>
+        <div class="message-body">
+          <%if @user.attended_event.any? %>
+            <section class="section">
+              <h2 class="title is-5">Upcoming events:</h2>
+              <%= render @user.attended_event.upcoming.merge(EventAttendance.attendance_confirmed)%>
+            </section>
+            <section class="section">
+              <h2 class="title is-5">Previously attended events:</h2>
+              <%= render @user.attended_event.past.merge(EventAttendance.attendance_confirmed)%>
+            </section>
+          <% else %>
+            <div class="media-content">
+              <div class="content">
+                <p>
+                  There is no events
+                </p>
+              </div>
+            </div>
+          <% end %>
+        </div>
       </div>
     </div>
-  </article>
+  </div>
+  <% if @current_user.id == @user.id%>
+    <div class="column">
+      <div class="message">
+        <div class="message-header">
+          Invitations
+        </div>
+        <div class="message-body">
+          <% @user.attended_event.upcoming.merge(EventAttendance.attendance_unconfirmed).each do |event|%>
+            <div class="media-content mb-1">
+              <div class="content">
+                <p>
+                  <% @event_attendance = EventAttendance.find_by(attended_event_id: event.id, attendees_id: @current_user.id)%>
+                  <strong><%=link_to event.title, event_path(event)%></strong>    
+                  <small><%= event.event_date.strftime("%Y-%m-%d at %H:%M") %></small>
+                  <%= link_to "Accept", event_attendance_path(@event_attendance),method: :patch, class: "button is-primary is-small" %>
+                  <%= link_to "Decline" ,event_attendance_path(@event_attendance), method: :delete, class: "button is-danger is-small"%>
+                </p>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
   
-  <div class="message">
-    <div class="message-header">Events hosted by <%= @user.username %>: </div>
-    <div class="message-body">
-      <%if @user.events.any? %>
-        <%= render @user.events%>
-      <% else %>
-        <div class="media-content">
-          <div class="content">
-            <p>
-              There is no events
-            </p>
-          </div>
-        </div>
-      <% end %>
-    </div>
-  </div>
-
-  <div class="message">
-    <div class="message-header"><%= @user.username %> attendeed events:</div>
-    <div class="message-body">
-      <%if @user.attended_event.any? %>
-        <section class="section">
-          <h2 class="title is-5">Upcoming events:</h2>
-          <%= render @user.attended_event.upcoming%>
-        </section>
-        <section class="section">
-          <h2 class="title is-5">Previously attended events:</h2>
-          <%= render @user.attended_event.past%>
-        </section>
-      <% else %>
-        <div class="media-content">
-          <div class="content">
-            <p>
-              There is no events
-            </p>
-          </div>
-        </div>
-      <% end %>
-    </div>
-  </div>
 </div>
