@@ -1,24 +1,3 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+This is a proyect from [The odin Proyect course of Ruby on Rails](https://www.theodinproject.com/courses/ruby-on-rails/lessons/associations). It consist in a simplified version of the website [Eventbrite](https://www.eventbrite.com/).
